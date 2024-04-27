@@ -80,7 +80,7 @@ export default function App(): JSX.Element {
     <div className="flex min-h-screen">
       {/* Sidebar with genres */}
       <div className="hidden w-64 border-r bg-gray-100/40 dark:bg-gray-800/40 lg:block">
-        <div className="flex h-full max-h-screen flex-col gap-4 p-4">
+        <div className="flex h-full max-h-screen overflow-auto flex-col gap-4 p-4">
           <div className="grid gap-2">
             <p className="px-3 text-sm font-medium text-gray-500 dark:text-gray-400">Genres</p>
             {genres.map((genre: string, index: number) => (
