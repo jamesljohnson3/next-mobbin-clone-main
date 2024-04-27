@@ -64,7 +64,11 @@ export default function App(): JSX.Element {
       );
       const data = await response.json();
       if (data.results && data.results.length > 0) {
-        setAudioDetailsList(data.results);
+        // Filter out duplicates
+        const filteredAudioDetailsList = data.results.filter((audio) =>
+          !audioDetailsList.some((existingAudio) => audio.id === existingAudio.id)
+        );
+        setAudioDetailsList(filteredAudioDetailsList);
       }
     } catch (error) {
       console.error("Error fetching audio data:", error);
@@ -73,6 +77,12 @@ export default function App(): JSX.Element {
 
   return (
     <div>
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        placeholder="Search for audio..."
+      />
       <div className="genres-list">
         {genres.map((genre: string, index: number) => (
           <div
