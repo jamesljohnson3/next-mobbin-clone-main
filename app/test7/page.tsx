@@ -64,25 +64,56 @@ export default function App(): JSX.Element {
     }
   }, [selectedGenre, searchQuery]);
 
-  const fetchAudioData = async (genre: string, query: string) => {
-    try {
-      const apiUrl = `https://api.openverse.engineering/v1/audio/?q=${encodeURIComponent(genre)}%20${encodeURIComponent(query)}&page_size=500`;
-      const response = await fetch(
-        apiUrl,
-        {
-          headers: {
-            Authorization: "Bearer WjbXUJIRVm8rOV79eKhSqC0Exp8F7c",
-          },
-        }
-      );
-      const data: ApiResponse = await response.json();
-      if (data.results && data.results.length > 0) {
-        setAudioDetailsList(data.results);
+  // Add state variables for pagination
+const [currentPage, setCurrentPage] = useState<number>(1);
+const [totalPages, setTotalPages] = useState<number>(1);
+
+const fetchAudioData = async (genre: string, query: string, page: number = 1) => {
+  try {
+    const apiUrl = `https://api.openverse.engineering/v1/audio/?q=${encodeURIComponent(genre)}%20${encodeURIComponent(query)}&page_size=20&page=${page}`;
+    const response = await fetch(
+      apiUrl,
+      {
+        headers: {
+          Authorization: "Bearer WjbXUJIRVm8rOV79eKhSqC0Exp8F7c",
+        },
       }
-    } catch (error) {
-      console.error("Error fetching audio data:", error);
+    );
+    const data: ApiResponse = await response.json();
+    if (data.results && data.results.length > 0) {
+      setAudioDetailsList(data.results);
+      setTotalPages(data.page_count);
     }
-  };
+  } catch (error) {
+    console.error("Error fetching audio data:", error);
+  }
+};
+
+// Function to handle page change
+const handlePageChange = (pageNumber: number) => {
+  setCurrentPage(pageNumber);
+  fetchAudioData(selectedGenre, searchQuery, pageNumber);
+};
+
+// Pagination controls
+const renderPagination = () => {
+  const pages = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pages.push(
+      <button
+        key={i}
+        className={`px-2 py-1 mx-1 border rounded ${
+          currentPage === i ? "bg-blue-500 text-white" : ""
+        }`}
+        onClick={() => handlePageChange(i)}
+      >
+        {i}
+      </button>
+    );
+  }
+  return <div>{pages}</div>;
+};
+
 
   return (
     <div className="flex overflow-auto max-h-screen">
@@ -209,6 +240,8 @@ export default function App(): JSX.Element {
                 ))}
             </div>
           </section>
+          <div className="flex justify-center my-4">{renderPagination()}</div>
+
         </main>
       </div>
     </div>

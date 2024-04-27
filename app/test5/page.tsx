@@ -101,7 +101,7 @@ export default function App(): JSX.Element {
         </div>
       </div>
       <div className="flex flex-1 flex-col">
-        <main className="flex-1 overflow-auto">
+        <main className="flex-1 overflow-auto max-h-screen">
           <section className="py-8 px-4 lg:px-6">
             <div className="mb-6">
               <h2 className="text-2xl font-bold tracking-tight">Artists</h2>
