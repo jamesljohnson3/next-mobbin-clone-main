@@ -79,9 +79,22 @@ export default function App(): JSX.Element {
     <div className="flex min-h-screen">
       {/* Your sidebar content goes here */}
       <div className="hidden w-64 border-r bg-gray-100/40 dark:bg-gray-800/40 lg:block">
-        {/* Sidebar content */}
+        <div className="flex h-full max-h-screen flex-col gap-4 p-4">
+          <div className="grid gap-2">
+            <p className="px-3 text-sm font-medium text-gray-500 dark:text-gray-400">Genres</p>
+            {genres.map((genre: string, index: number) => (
+              <Link
+                key={index}
+                className={`flex items-center gap-3 rounded-md px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 ${selectedGenre === genre ? 'bg-blue-200' : ''}`}
+                href="#"
+                onClick={() => handleGenreClick(genre)}
+              >
+                {genre}
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
-
       {/* Main content */}
       <div className="flex flex-1 flex-col">
         <main className="flex-1 overflow-auto">
