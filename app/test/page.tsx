@@ -1,8 +1,6 @@
 "use client"
 import React, { useState, useEffect } from "react";
 
-import axios from 'axios';
-
 interface AudioDetails {
   id: string;
   title: string;
@@ -23,18 +21,18 @@ export default function App(): JSX.Element {
 
   const fetchGenres = async () => {
     try {
-      const response = await axios.post(
+      const response = await fetch(
         'https://current--spotify-demo-graph-a1l0ih.apollographos.net/graphql',
         {
-          query: 'query ExampleQuery { genres }',
-        },
-        {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
+          body: JSON.stringify({ query: 'query ExampleQuery { genres }' }),
         }
       );
-      const fetchedGenres: string[] = response.data.data.genres;
+      const data = await response.json();
+      const fetchedGenres: string[] = data.data.genres;
       setGenres(fetchedGenres);
     } catch (error) {
       console.error('Error fetching genres:', error);
@@ -64,15 +62,12 @@ export default function App(): JSX.Element {
   const fetchAudioData = async (genre: string, query: string) => {
     try {
       const apiUrl = `https://api.openverse.engineering/v1/audio/?q=${encodeURIComponent(genre)}%20${encodeURIComponent(query)}&page_size=4`;
-      const response = await axios.get(
-        apiUrl,
-        {
-          headers: {
-            Authorization: "Bearer WjbXUJIRVm8rOV79eKhSqC0Exp8F7c",
-          },
-        }
-      );
-      const data = response.data;
+      const response = await fetch(apiUrl, {
+        headers: {
+          Authorization: "Bearer WjbXUJIRVm8rOV79eKhSqC0Exp8F7c",
+        },
+      });
+      const data = await response.json();
       if (data.results && data.results.length > 0) {
         setAudioDetailsList(data.results);
       }
