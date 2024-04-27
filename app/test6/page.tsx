@@ -66,7 +66,7 @@ export default function App(): JSX.Element {
 
   const fetchAudioData = async (genre: string, query: string) => {
     try {
-      const apiUrl = `https://api.openverse.engineering/v1/audio/?q=${encodeURIComponent(genre)}%20${encodeURIComponent(query)}&page_size=100`;
+      const apiUrl = `https://api.openverse.engineering/v1/audio/?q=${encodeURIComponent(genre)}%20${encodeURIComponent(query)}&page_size=20`;
       const response = await fetch(
         apiUrl,
         {

@@ -70,7 +70,7 @@ const [totalPages, setTotalPages] = useState<number>(1);
 
 const fetchAudioData = async (genre: string, query: string, page: number = 1) => {
   try {
-    const apiUrl = `https://api.openverse.engineering/v1/audio/?q=${encodeURIComponent(genre)}%20${encodeURIComponent(query)}&page_size=50&page=${page}`;
+    const apiUrl = `https://api.openverse.engineering/v1/audio/?q=${encodeURIComponent(genre)}%20${encodeURIComponent(query)}&page_size=20&page=${page}`;
     const response = await fetch(
       apiUrl,
       {
