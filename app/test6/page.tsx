@@ -116,7 +116,10 @@ export default function App(): JSX.Element {
                 className="w-full rounded-md bg-gray-100 px-8 py-2 text-sm shadow-none focus:bg-white dark:bg-gray-800 dark:focus:bg-gray-950"
                 placeholder="Search for artists, albums, and playlists"
                 type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
+              
             </div>
             <NavigationMenu>
               <NavigationMenuList>
