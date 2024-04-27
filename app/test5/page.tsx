@@ -1,7 +1,6 @@
 "use client"
-import React, { useState, useEffect } from "react";
-import axios from 'axios';
 import Link from "next/link";
+import React, { useState, useEffect } from "react";
 
 interface AudioDetails {
   id: string;
@@ -14,21 +13,60 @@ interface AudioDetails {
 }
 
 export default function App(): JSX.Element {
+  const [genres, setGenres] = useState<string[]>([]);
+  const [selectedGenre, setSelectedGenre] = useState<string>("");
   const [audioDetailsList, setAudioDetailsList] = useState<AudioDetails[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
-    fetchAudioData();
+    fetchGenres();
   }, []);
 
-  const fetchAudioData = async () => {
+  const fetchGenres = async () => {
     try {
-      const apiUrl = `YOUR_API_URL_HERE`;
-      const response = await axios.get(apiUrl, {
-        headers: {
-          Authorization: "Bearer YOUR_API_TOKEN_HERE",
-        },
-      });
-      const data = response.data;
+      const response = await fetch(
+        'https://current--spotify-demo-graph-a1l0ih.apollographos.net/graphql',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            query: 'query ExampleQuery { genres }',
+          }),
+        }
+      );
+      const data = await response.json();
+      const fetchedGenres: string[] = data.data.genres;
+      setGenres(fetchedGenres);
+    } catch (error) {
+      console.error('Error fetching genres:', error);
+    }
+  };
+
+  const handleGenreClick = async (genre: string): Promise<void> => {
+    setSelectedGenre(genre);
+    fetchAudioData(genre, searchQuery);
+  };
+
+  useEffect(() => {
+    if (selectedGenre) {
+      fetchAudioData(selectedGenre, searchQuery);
+    }
+  }, [selectedGenre, searchQuery]);
+
+  const fetchAudioData = async (genre: string, query: string) => {
+    try {
+      const apiUrl = `https://api.openverse.engineering/v1/audio/?q=${encodeURIComponent(genre)}%20${encodeURIComponent(query)}&page_size=20`;
+      const response = await fetch(
+        apiUrl,
+        {
+          headers: {
+            Authorization: "Bearer WjbXUJIRVm8rOV79eKhSqC0Exp8F7c",
+          },
+        }
+      );
+      const data = await response.json();
       if (data.results && data.results.length > 0) {
         setAudioDetailsList(data.results);
       }
