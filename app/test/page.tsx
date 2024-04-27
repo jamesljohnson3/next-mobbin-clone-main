@@ -12,7 +12,6 @@ export default function App(): JSX.Element {
   const [genres, setGenres] = useState<string[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<string>("");
   const [audioDetailsList, setAudioDetailsList] = useState<AudioDetails[]>([]);
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
@@ -28,7 +27,9 @@ export default function App(): JSX.Element {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ query: 'query ExampleQuery { genres }' }),
+          body: JSON.stringify({
+            query: 'query ExampleQuery { genres }',
+          }),
         }
       );
       const data = await response.json();
@@ -41,16 +42,7 @@ export default function App(): JSX.Element {
 
   const handleGenreClick = async (genre: string): Promise<void> => {
     setSelectedGenre(genre);
-    if (!selectedGenres.includes(genre)) {
-      setSelectedGenres([...selectedGenres, genre]);
-    } else {
-      setSelectedGenres(selectedGenres.filter((selected) => selected !== genre));
-    }
     fetchAudioData(genre, searchQuery);
-  };
-
-  const handleMultiSelect = (genre: string): string => {
-    return selectedGenres.includes(genre) ? "bg-blue-200" : "";
   };
 
   useEffect(() => {
@@ -62,11 +54,14 @@ export default function App(): JSX.Element {
   const fetchAudioData = async (genre: string, query: string) => {
     try {
       const apiUrl = `https://api.openverse.engineering/v1/audio/?q=${encodeURIComponent(genre)}%20${encodeURIComponent(query)}&page_size=4`;
-      const response = await fetch(apiUrl, {
-        headers: {
-          Authorization: "Bearer WjbXUJIRVm8rOV79eKhSqC0Exp8F7c",
-        },
-      });
+      const response = await fetch(
+        apiUrl,
+        {
+          headers: {
+            Authorization: "Bearer WjbXUJIRVm8rOV79eKhSqC0Exp8F7c",
+          },
+        }
+      );
       const data = await response.json();
       if (data.results && data.results.length > 0) {
         setAudioDetailsList(data.results);
@@ -83,7 +78,7 @@ export default function App(): JSX.Element {
           <div
             key={index}
             onClick={() => handleGenreClick(genre)}
-            className={`p-2 shadow-md cursor-pointer ${handleMultiSelect(genre)}`}
+            className={`p-2 shadow-md cursor-pointer ${selectedGenre === genre ? "bg-blue-200" : ""}`}
           >
             {genre}
           </div>
