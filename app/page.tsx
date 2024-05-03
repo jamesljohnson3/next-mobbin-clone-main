@@ -435,7 +435,15 @@ const Circle = forwardRef<HTMLDivElement, {
     const handleStepClick = (index: number) => {
       setActiveStep(index);
     };
-  
+    const stepIcons: Record<string, React.ReactNode> = {
+        "Step 1": <Hash className="h-6 w-6" />,
+        "Step 2": <Mic className="h-6 w-6" />,
+        "Step 3": <ShieldAlert className="h-6 w-6" />,
+        "Step 4": <ShieldCheck className="h-6 w-6" />,
+        "Step 5": <VideoIcon className="h-6 w-6" />,
+        "Step 6": <Icons.user className="h-6 w-6" />,
+      };
+    
     const steps: StepItem[] = [
       { label: "Step 1", component: <ImageCard2 /> },
       { label: "Step 2", component: <Card2 /> },
@@ -461,7 +469,10 @@ const Circle = forwardRef<HTMLDivElement, {
                 active={index === activeStep}
                 onClick={() => handleStepClick(index)}
               >
-                {step.label}
+
+<div className="flex items-center">
+                    {step.label && stepIcons[step.label]}
+                  </div>
               </Circle>
             ))}
           </div>
