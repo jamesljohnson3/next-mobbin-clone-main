@@ -407,168 +407,114 @@ const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
 };
 
 
-
 // eslint-disable-next-line react/display-name
 const Circle = forwardRef<HTMLDivElement, { 
-  className?: string; 
-  children?: React.ReactNode; 
-  active?: boolean;
-  onClick?: () => void; // Add onClick prop definition
-}>(({ className, children, active, onClick }, ref) => {
-  return (
-    <div
-      ref={ref}
-      className={cn(
-        "z-10 flex h-12 w-12 mt-4 items-center justify-center rounded-full border-2 border-border bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]",
-        className,
-        active && "transform scale-150",
-      )}
-      onClick={onClick} // Pass onClick prop to the div element
-    >
-      {children}
-    </div>
-  );
-});
-
-function AnimatedBeamMultipleInputDemo() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  // Define an object mapping step labels to icons
-  const stepIcons: Record<string, React.ReactNode> = {
-    "Step 1": <Hash className="h-6 w-6" />,
-    "Step 2": <Mic className="h-6 w-6" />,
-    "Step 3": <ShieldAlert className="h-6 w-6" />,
-    "Step 4": <ShieldCheck className="h-6 w-6" />,
-    "Step 5": <VideoIcon className="h-6 w-6" />,
-    "Step 6": <Icons.user className="h-6 w-6" />,
-  };
-  const steps: StepItem[] = [
-    { label: "Step 1", component: <ImageCard2 /> },
-    { label: "Step 2", component: <Card2 /> },
-    { label: "Step 3", component: <Switch2 /> },
-    { label: "Step 4", component: <Tabs2 /> },
-    { label: "Step 5", component: <Collapsible2 /> },
-    { label: "Step 6", component: <></> },
-  ];
-
-  const stepRefs: React.RefObject<HTMLDivElement>[][] = Array.from({ length: steps.length + 1 }, () =>
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    Array.from({ length: 2 }, () => useRef<HTMLDivElement>(null))
-  );
-
-  const [activeStep, setActiveStep] = useState(0);
-
-  const handleStepClick = (index: number) => {
-    setActiveStep(index);
-  };
-
-  const handleNextStep = () => {
-    if (activeStep < steps.length - 1) {
-      setActiveStep(activeStep + 1);
-    }
-  };
-
-  const handlePrevStep = () => {
-    if (activeStep > 0) {
-      setActiveStep(activeStep - 1);
-    }
-  };
-
-  return (
-    <Stepper orientation="vertical" initialStep={0} steps={steps} containerRef={containerRef}>
-      {/* Back and Next Buttons */}
-      <div className="flex justify-between mt-4">
-        <Button variant="outline" size="lg" onClick={handlePrevStep} disabled={activeStep === 0}>
-          Back
-        </Button>
-        <Button variant="outline" size="lg" onClick={handleNextStep} disabled={activeStep === steps.length - 1}>
-          Next
-        </Button>
+    className?: string; 
+    children?: React.ReactNode; 
+    active?: boolean;
+    onClick?: () => void; // Add onClick prop definition
+  }>(({ className, children, active, onClick }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 border-border bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]",
+          className,
+          active && "transform scale-150",
+        )}
+        onClick={onClick} // Pass onClick prop to the div element
+      >
+        {children}
       </div>
-      <div className="min-h-screen relative mt-16 flex w-full items-center justify-center p-4" ref={containerRef}>
+    );
+  });
+  function AnimatedBeamMultipleInputDemo() {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [activeStep, setActiveStep] = useState(0); // Track active step
+  
+    const handleStepClick = (index: number) => {
+      setActiveStep(index);
+    };
+  
+    const steps: StepItem[] = [
+      { label: "Step 1", component: <ImageCard2 /> },
+      { label: "Step 2", component: <Card2 /> },
+      { label: "Step 3", component: <Switch2 /> },
+      { label: "Step 4", component: <Tabs2 /> },
+      { label: "Step 5", component: <Collapsible2 /> },
+      { label: "Step 6", component: <FinalStep /> },
+    ];
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const divRefs = Array.from({ length: steps.length + 1 }, () => useRef<HTMLDivElement>(null)); // +1 for div7Ref
+  
+    return (
+      <div
+        className="relative flex w-full items-center justify-center p-4"
+        ref={containerRef}
+      >
         <div className="flex h-full w-full flex-row items-stretch justify-between gap-10">
           <div className="flex flex-col justify-center gap-2">
             {steps.map((step, index) => (
-              <React.Fragment key={step.label}>
-                <Circle
-                  ref={stepRefs[index][0]}
-                  active={index === activeStep}
-                  onClick={() => handleStepClick(index)}
-                >
-                  <div className="flex items-center">
-                    {step.label && stepIcons[step.label]}
-                  </div>
-                </Circle>
-                {index === activeStep && (
-                  <div
-                    className="lg:mt-16"
-                    style={{
-                      position: 'absolute',
-                      top: '10%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                    }}
-                  >
-                    {step.component}
-                  </div>
-                )}
-              </React.Fragment>
+              <Circle
+                key={step.label}
+                ref={divRefs[index]}
+                active={index === activeStep}
+                onClick={() => handleStepClick(index)}
+              >
+                {step.label}
+              </Circle>
             ))}
           </div>
           <div className="flex flex-col justify-center">
-            <Circle ref={stepRefs[steps.length][1]} className="h-16 w-16">
-              <Play className="h-6 w-6" />
-            </Circle>
-          </div>
-          <div className="flex flex-col justify-center">
-            <Circle
-              ref={stepRefs[steps.length][0]}
-              active={activeStep === steps.length}
-              onClick={() => setActiveStep(steps.length)}
-            >
+            <Circle ref={divRefs[steps.length]} active={activeStep === steps.length} onClick={() => setActiveStep(steps.length)}>
               <UsersRound className="text-black" />
             </Circle>
           </div>
         </div>
-        <FinalStep />
-
-        {/* AnimatedBeams */}
-        {stepRefs.map((stepRef, index) => {
-          const [fromRef, toRef] = stepRef;
-          if (index === activeStep) {
-            return (
-              <AnimatedBeam
-                key={index}
-                containerRef={containerRef}
-                fromRef={fromRef}
-                toRef={stepRefs[steps.length][1]} // Connect to the Play icon
-              />
-            );
-          } else if (index === steps.length) {
-            return (
-              <AnimatedBeam
-                key={index}
-                containerRef={containerRef}
-                fromRef={fromRef}
-                toRef={stepRefs[steps.length][1]} // Connect all div refs to the Play icon
-              />
-            );
-          } else {
-            return (
-              <AnimatedBeam
-                key={index}
-                containerRef={containerRef}
-                fromRef={fromRef}
-                toRef={toRef}
-              />
-            );
-          }
-        })}
+  
+        {divRefs.slice(0, steps.length).map((fromRef, index) => (
+          <AnimatedBeam
+            key={index}
+            containerRef={containerRef}
+            fromRef={fromRef}
+            toRef={divRefs[steps.length]}
+          />
+        ))}
+  
+        {/* AnimatedBeam for the last step */}
+        <AnimatedBeam
+          containerRef={containerRef}
+          fromRef={divRefs[steps.length - 1]}
+          toRef={divRefs[steps.length]}
+        />
       </div>
-    </Stepper>
-  );
-}
-
-
+    );
+  }
+  
+  
+  
+  const StepButtons = () => {
+    const { nextStep, prevStep, isLastStep, isOptionalStep, isDisabledStep } =
+      useStepper();
+    return (
+      <div className="w-full flex gap-2 mb-4">
+        <Button
+          disabled={isDisabledStep}
+          onClick={prevStep}
+          size="sm"
+          variant="outline"
+        >
+          Prev
+        </Button>
+        <Button         variant="outline"
+   size="sm" onClick={nextStep}>
+          {isLastStep ? "Finish" : isOptionalStep ? "Skip" : "Next"}
+        </Button>
+      </div>
+    );
+  };
+  
+  
 
 type Props = {}
 
