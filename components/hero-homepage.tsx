@@ -500,7 +500,7 @@ function AnimatedBeamMultipleInputDemo() {
                   </div>
                 </Circle>
                 {index === activeStep && (
-                             <div className="absolute top-5 right-5 transform -translate-x-1/2 -translate-y-1/2  rounded-lg p-2">
+                  <div className="z-50 absolute top-0 lg:top-5 right-5 lg:transform -translate-x-1/2 -translate-y-1/2 border rounded-lg p-4">
 
                     {step.component}
                   </div>
