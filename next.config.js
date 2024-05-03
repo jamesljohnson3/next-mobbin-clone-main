@@ -6,15 +6,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/browse/ios/apps',
-        permanent: true,
-      },
-    ];
-  },
+   
 }
 
 module.exports = nextConfig
