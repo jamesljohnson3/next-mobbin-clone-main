@@ -505,7 +505,7 @@ function AnimatedBeamMultipleInputDemo() {
                     style={{
                       position: 'absolute',
                       top: '10%',
-                      left: '50%',
+                      right: '5%',
                       transform: 'translate(-50%, -50%)',
                     }}
                   >
