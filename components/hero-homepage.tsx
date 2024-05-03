@@ -486,7 +486,7 @@ function AnimatedBeamMultipleInputDemo() {
         </Button>
       </div>
       <div className="min-h-screen relative mt-16 flex w-full items-center justify-center p-4" ref={containerRef}>
-        <div className="flex h-full w-full flex-row items-stretch justify-between gap-10">
+        <div className="border rounded-lg flex h-full w-full flex-row items-stretch justify-between gap-10">
           <div className="flex flex-col justify-center gap-2">
             {steps.map((step, index) => (
               <React.Fragment key={step.label}>
