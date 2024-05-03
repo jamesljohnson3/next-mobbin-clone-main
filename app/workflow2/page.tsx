@@ -7,7 +7,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from '@/components/ui/resizable'
-import { StepItem, Stepper, useStepper } from "@/components/stepper";
+import { Step, StepItem, Stepper, useStepper } from "@/components/stepper";
 import { Icons } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
@@ -430,10 +430,21 @@ const Circle = forwardRef<HTMLDivElement, {
   );
 });
 
-function AnimatedBeamMultipleInputDemo() {
+ function AnimatedBeamMultipleInputDemo() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const div1Ref = useRef<HTMLDivElement>(null);
+  const div2Ref = useRef<HTMLDivElement>(null);
+  const div3Ref = useRef<HTMLDivElement>(null);
+  const div4Ref = useRef<HTMLDivElement>(null);
+  const div5Ref = useRef<HTMLDivElement>(null);
+  const div6Ref = useRef<HTMLDivElement>(null);
+  const div7Ref = useRef<HTMLDivElement>(null);
 
-  
+  const [activeStep, setActiveStep] = useState(0); // Track active step
+  const handleStepClick = (index: number) => {
+    setActiveStep(index);
+  };
+
   const steps: StepItem[] = [
     { label: "Step 1", component: <ImageCard2 /> },
     { label: "Step 2", component: <Card2 /> },
@@ -443,91 +454,91 @@ function AnimatedBeamMultipleInputDemo() {
     { label: "Step 6", component: <FinalStep /> },
   ];
 
-// Define an object mapping step labels to icons
-const stepIcons: Record<string, React.ReactNode> = {
-  "Step 1": <Hash className="h-6 w-6" />,
-  "Step 2": <Mic className="h-6 w-6" />,
-  "Step 3": <ShieldAlert className="h-6 w-6" />,
-  "Step 4": <ShieldCheck className="h-6 w-6" />,
-  "Step 5": <VideoIcon className="h-6 w-6" />,
-  "Step 6": <Icons.user className="h-6 w-6" />,
-};
-
-  
-  const divRefs = Array.from({ length: steps.length + 1 }, () =>
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useRef<HTMLDivElement>(null)
-  ); // +1 for div7Ref
-  const [activeStep, setActiveStep] = useState(0); // Track active step
-
-  const handleStepClick = (index: number) => {
-    setActiveStep(index);
-  };
-
   return (
-    <Stepper
-      orientation="vertical"
-      initialStep={0}
-      steps={steps}
-      containerRef={containerRef}
+    <div
+      className="relative flex w-full items-center justify-center p-4"
+      ref={containerRef}
     >
-      <div
-        className="relative flex w-full items-center justify-center p-4"
-        ref={containerRef}
-      >
-        <div className="flex h-full w-full flex-row items-stretch justify-between gap-10">
-          <div className="flex flex-col justify-center gap-2">
-          {steps.map((step, index) => (
-            <>  <Circle
-                key={step.label}
-                ref={divRefs[index]}
-                active={index === activeStep}
-                onClick={() => handleStepClick(index)}>
-                {step.label && stepIcons[step.label]} {/* Conditional check */}
-  
-
-                {step.label}
-              </Circle>
-              <div className="">
-
-              {index === activeStep && step.component} {/* Use step.component instead of stepProps.component */}
-
-              </div>
-
-             </>
-            ))}
-          </div>
-          <div className="flex flex-col justify-center">
-            <Circle
-              ref={divRefs[steps.length]}
-              active={activeStep === steps.length}
-              onClick={() => setActiveStep(steps.length)}
-            >
-              <Icons.user className="text-black" />
-            </Circle>
-          </div>
+      <div className="flex h-full w-full flex-row items-stretch justify-between gap-10">
+        <div className="flex flex-col justify-center gap-2">
+          <Circle ref={div1Ref} active={activeStep === 0} onClick={() => setActiveStep(0)}>
+            <Hash className="h-6 w-6" />
+          </Circle>
+          <Circle ref={div2Ref} active={activeStep === 1} onClick={() => setActiveStep(1)}>
+            <Mic className="h-6 w-6" />
+          </Circle>
+          <Circle ref={div3Ref} active={activeStep === 2} onClick={() => setActiveStep(2)}>
+            <ShieldAlert className="h-6 w-6" />
+          </Circle>
+          <Circle ref={div4Ref} active={activeStep === 3} onClick={() => setActiveStep(3)}>
+            <ShieldCheck className="h-6 w-6" />
+          </Circle>
+          <Circle ref={div5Ref} active={activeStep === 4} onClick={() => setActiveStep(4)}>
+            <VideoIcon className="h-6 w-6" />
+          </Circle>
         </div>
-      
-        <FinalStep />
-        {divRefs.slice(0, steps.length).map((fromRef, index) => (
-          <AnimatedBeam
-            key={index}
-            containerRef={containerRef}
-            fromRef={fromRef}
-            toRef={divRefs[steps.length]}
-          />
-        ))}
-
-        {/* AnimatedBeam for the last step */}
-        <AnimatedBeam
-          containerRef={containerRef}
-          fromRef={divRefs[steps.length - 1]}
-          toRef={divRefs[steps.length]}
-        />
+        <div className="flex flex-col justify-center">
+          <Circle ref={div6Ref} className="h-16 w-16" active={activeStep === 5} onClick={() => setActiveStep(5)}>
+            <VideoIcon className="h-6 w-6" />
+          </Circle>
+        </div>
+        <div className="flex flex-col justify-center">
+          <Circle ref={div7Ref} active={activeStep === 6} onClick={() => setActiveStep(6)}>
+            <Icons.user className="text-black" />
+          </Circle>
+        </div>
       </div>
-    </Stepper>
+
+      <Stepper
+        orientation="vertical"
+        initialStep={0}
+        steps={steps}
+        containerRef={containerRef}
+      >
+         {steps.map((stepProps, index) => (
+          <Step key={stepProps.label} {...stepProps}>
+            <div onClick={() => handleStepClick(index)}>{stepProps.component}</div>
+            <StepButtons />
+          </Step>
+        ))}
+        <FinalStep />
+      </Stepper>
+
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div1Ref}
+        toRef={div6Ref}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div2Ref}
+        toRef={div6Ref}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div3Ref}
+        toRef={div6Ref}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div4Ref}
+        toRef={div6Ref}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div5Ref}
+        toRef={div6Ref}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div6Ref}
+        toRef={div7Ref}
+      />
+    </div>
   );
 }
+
+
 const StepButtons = () => {
   const { nextStep, prevStep, isLastStep, isOptionalStep, isDisabledStep } =
     useStepper();
