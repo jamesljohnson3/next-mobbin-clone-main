@@ -501,10 +501,10 @@ function AnimatedBeamMultipleInputDemo() {
                 </Circle>
                 {index === activeStep && (
                   <div
-                    className="lg:mt-16"
+                    className=""
                     style={{
                       position: 'absolute',
-                      top: '10%',
+                      top: '6%',
                       right: '5%',
                       transform: 'translate(-50%, -50%)',
                     }}
