@@ -573,7 +573,7 @@ const EditorCanvas = (props: Props) => {
   
   return (
     <ResizablePanelGroup direction="horizontal">
-     <ResizablePanel defaultSize={95}>
+     <ResizablePanel defaultSize={97}>
         <div className="flex h-full items-center justify-center">
           <div
             style={{ width: '100%', height: '100%', paddingBottom: '70px' }}
@@ -586,7 +586,7 @@ const EditorCanvas = (props: Props) => {
       </ResizablePanel>
       <ResizableHandle />
     <ResizablePanel
-        defaultSize={5}
+        defaultSize={3}
         className="relative sm:block"
       >  
       </ResizablePanel> 
