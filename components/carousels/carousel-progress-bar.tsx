@@ -2,7 +2,6 @@
 'use client'
 import React from "react";
 import  { useEffect, useState } from 'react'
-import 'reactflow/dist/style.css'
 import {
   ResizableHandle,
   ResizablePanel,
