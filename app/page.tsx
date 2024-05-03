@@ -495,6 +495,11 @@ const Circle = forwardRef<HTMLDivElement, {
             ))}
           </div>
           <div className="flex flex-col justify-center">
+          <Circle   ref={divRefs[steps.length]} className="h-16 w-16">
+            <Play className="h-6 w-6" />
+          </Circle>
+        </div>
+          <div className="flex flex-col justify-center">
             <Circle ref={divRefs[steps.length]} active={activeStep === steps.length} onClick={() => setActiveStep(steps.length)}>
               <UsersRound className="text-black" />
             </Circle>
