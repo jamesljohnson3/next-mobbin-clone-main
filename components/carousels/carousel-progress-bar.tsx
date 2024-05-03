@@ -440,12 +440,12 @@ function AnimatedBeamMultipleInputDemo() {
     "Step 6": <Icons.user className="h-6 w-6" />,
   };
   const steps: StepItem[] = [
-    { label: "Step 1", component: <ImageCard2 /> },
-    { label: "Step 2", component: <ImageCard2 /> },
-    { label: "Step 3", component: <ImageCard2 /> },
-    { label: "Step 4", component: <ImageCard2 /> },
-    { label: "Step 5", component: <ImageCard2 /> },
-    { label: "Step 6", component: <ImageCard2/> },
+    { label: "Step 1", component: <Card2 /> },
+    { label: "Step 2", component: <Card2 /> },
+    { label: "Step 3", component: <Card2 /> },
+    { label: "Step 4", component: <Card2 /> },
+    { label: "Step 5", component: <Card2 /> },
+    { label: "Step 6", component: <Card2/> },
   ];
 
   const stepRefs: React.RefObject<HTMLDivElement>[][] = Array.from({ length: steps.length + 1 }, () =>
