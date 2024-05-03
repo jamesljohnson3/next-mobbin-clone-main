@@ -507,14 +507,16 @@ const Circle = forwardRef<HTMLDivElement, {
         </div>
   
         {divRefs.slice(0, steps.length).map((fromRef, index) => (
-          <AnimatedBeam
-          key={index}
-          containerRef={containerRef}
-          fromRef={fromRef}
-          toRef={divRefs[index] === divRefs[activeStep] ? divRefs[activeStep + 1] : divRefs[index + 1]} // Connect to the next ref unless it's the active step, then connect to the next one
-        />
-        ))}
-  
+  <AnimatedBeam
+    key={index}
+    containerRef={containerRef}
+    fromRef={fromRef}
+    toRef={index === steps.length - 1 ? divRefs[steps.length] : divRefs[index + 1]} // Connect to the next ref unless it's the last step, then connect to the Play circle
+  />
+))}
+
+
+
         {/* AnimatedBeam for the last step */}
         <AnimatedBeam
           containerRef={containerRef}
