@@ -1,7 +1,7 @@
 "use client";
 
-import { CarouselProgressBar } from "@/components/carousels/carousel-progress-bar";
-import { HeroHomepage } from "@/components/hero-homepage";
+import  CarouselProgressBar  from "@/components/carousels/carousel-progress-bar";
+import  HeroHomepage  from "@/components/hero-homepage";
 import { DropdownMenuCheckboxItem } from "@/components/ui/dropdown-menu";
 import { useHero } from "@/hooks/use-hero-selection";
 
