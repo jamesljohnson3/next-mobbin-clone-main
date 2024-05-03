@@ -100,7 +100,7 @@ const Collapsible2 = () => {
 const Card2 = () => {
   return (
       <div>
-<Card className="w-[350px]">
+<Card className="w-[650px]">
   <CardHeader>
     <CardTitle>Create project</CardTitle>
     <CardDescription>Deploy your new project in one-click.</CardDescription>

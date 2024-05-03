@@ -99,7 +99,7 @@ const Collapsible2 = () => {
 const Card2 = () => {
   return (
       <div>
-<Card className="w-[350px]">
+<Card className="w-[650px]">
 
 
   <CardContent>
