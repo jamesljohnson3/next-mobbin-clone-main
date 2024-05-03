@@ -126,10 +126,14 @@ const Card2 = () => {
       </div>
     </form>
   </CardContent>
+  <CardFooter>
+
   <div className="flex justify-between">
     <Button variant="outline" >Cancel</Button>
     <Button variant="outline" >Deploy</Button>
   </div>
+  </CardFooter>
+
 </Card>      </div>
   );
 }
@@ -497,7 +501,7 @@ function AnimatedBeamMultipleInputDemo() {
                   </div>
                 </Circle>
                 {index === activeStep && (
-            <div className="absolute top-5 right-5 transform -translate-x-1/2 -translate-y-1/2 border rounded-lg p-8">
+                             <div className="absolute top-5 right-5 transform -translate-x-1/2 -translate-y-1/2  rounded-lg p-2">
 
                     {step.component}
                   </div>
