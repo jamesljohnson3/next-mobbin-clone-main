@@ -454,15 +454,20 @@ const Circle = forwardRef<HTMLDivElement, {
     ];
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const divRefs = Array.from({ length: steps.length + 1 }, () => useRef<HTMLDivElement>(null)); // +1 for div7Ref
+    const { nextStep, prevStep, isLastStep, isOptionalStep, isDisabledStep } =
+    useStepper();
     const handleNextStep = () => {
         if (activeStep < steps.length - 1) {
-          setActiveStep(activeStep + 1);
+          setActiveStep(activeStep + 1)
+          nextStep();
         }
       };
     
       const handlePrevStep = () => {
         if (activeStep > 0) {
           setActiveStep(activeStep - 1);
+          prevStep()
+         
         }
       };
     return (
