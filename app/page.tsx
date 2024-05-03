@@ -7,7 +7,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from '@/components/ui/resizable'
-import { StepItem, Stepper, useStepper } from "@/components/stepper";
+import { Step, StepItem, Stepper, useStepper } from "@/components/stepper";
 import { Icons } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
@@ -477,6 +477,20 @@ const Circle = forwardRef<HTMLDivElement, {
         <Button variant="outline" size="lg" onClick={handleNextStep} disabled={activeStep === steps.length - 1}>
           Next
         </Button>
+        <Stepper
+        orientation="vertical"
+        initialStep={0}
+        steps={steps}
+        containerRef={containerRef}
+      >
+         {steps.map((stepProps, index) => (
+          <Step key={stepProps.label} {...stepProps}>
+            <div onClick={() => handleStepClick(index)}>{stepProps.component}</div>
+            <StepButtons />
+          </Step>
+        ))}
+        <FinalStep />
+      </Stepper>
       </div>
         <div className="flex h-full w-full flex-row items-stretch justify-between gap-10">
           <div className="flex flex-col justify-center gap-2">
