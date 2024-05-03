@@ -460,9 +460,9 @@ function AnimatedBeamMultipleInputDemo() {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleStepClick = (index: number) => {
-    setActiveStep(index);
+    setActiveStep(prevActiveStep => prevActiveStep === index ? -1 : index); // Toggle active step
   };
-
+  
   const handleNextStep = () => {
     if (activeStep < steps.length - 1) {
       setActiveStep(activeStep + 1);
