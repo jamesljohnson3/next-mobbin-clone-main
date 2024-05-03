@@ -100,10 +100,8 @@ const Card2 = () => {
   return (
       <div>
 <Card className="w-[350px]">
-  <CardHeader>
-    <CardTitle>Create project</CardTitle>
-    <CardDescription>Deploy your new project in one-click.</CardDescription>
-  </CardHeader>
+
+
   <CardContent>
     <form>
       <div className="grid w-full items-center gap-4">
@@ -128,10 +126,10 @@ const Card2 = () => {
       </div>
     </form>
   </CardContent>
-  <CardFooter className="flex justify-between">
+  <div className="flex justify-between">
     <Button variant="outline" >Cancel</Button>
     <Button variant="outline" >Deploy</Button>
-  </CardFooter>
+  </div>
 </Card>      </div>
   );
 }
