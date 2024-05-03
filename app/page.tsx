@@ -454,12 +454,30 @@ const Circle = forwardRef<HTMLDivElement, {
     ];
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const divRefs = Array.from({ length: steps.length + 1 }, () => useRef<HTMLDivElement>(null)); // +1 for div7Ref
-  
+    const handleNextStep = () => {
+        if (activeStep < steps.length - 1) {
+          setActiveStep(activeStep + 1);
+        }
+      };
+    
+      const handlePrevStep = () => {
+        if (activeStep > 0) {
+          setActiveStep(activeStep - 1);
+        }
+      };
     return (
       <div
         className="relative flex w-full items-center justify-center p-4"
         ref={containerRef}
       >
+             <div className="flex justify-between mt-4">
+        <Button variant="outline" size="lg" onClick={handlePrevStep} disabled={activeStep === 0}>
+          Back
+        </Button>
+        <Button variant="outline" size="lg" onClick={handleNextStep} disabled={activeStep === steps.length - 1}>
+          Next
+        </Button>
+      </div>
         <div className="flex h-full w-full flex-row items-stretch justify-between gap-10">
           <div className="flex flex-col justify-center gap-2">
             {steps.map((step, index) => (
