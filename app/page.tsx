@@ -508,11 +508,11 @@ const Circle = forwardRef<HTMLDivElement, {
   
         {divRefs.slice(0, steps.length).map((fromRef, index) => (
           <AnimatedBeam
-            key={index}
-            containerRef={containerRef}
-            fromRef={fromRef}
-            toRef={divRefs[steps.length]}
-          />
+          key={index}
+          containerRef={containerRef}
+          fromRef={fromRef}
+          toRef={divRefs[index] === divRefs[activeStep] ? divRefs[activeStep + 1] : divRefs[index + 1]} // Connect to the next ref unless it's the active step, then connect to the next one
+        />
         ))}
   
         {/* AnimatedBeam for the last step */}
